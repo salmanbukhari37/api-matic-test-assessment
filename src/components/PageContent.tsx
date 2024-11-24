@@ -3,7 +3,7 @@ import ReactMarkdown from "react-markdown";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import rehypeRaw from "rehype-raw";
-import { Box, Divider } from "@mui/material";
+import { Box, Divider, useMediaQuery, Theme } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../redux/store";
 import { setEditing, updatePageContent } from "../redux/slices/pagesSlice";
@@ -14,10 +14,7 @@ import TitleEditor from "./TitleEditor";
 import { Messages } from "dto/enum/PageContent.enum";
 import { PageContentProps } from "dto/interfaces/IPageContent.interface";
 
-const PageContent: React.FC<PageContentProps> = ({
-  pageIndex,
-  isSmallScreen,
-}) => {
+const PageContent: React.FC<PageContentProps> = ({ pageIndex }) => {
   const dispatch = useDispatch();
   const page = useSelector(
     (state: RootState) => state.pagesSlice.pages[pageIndex]
@@ -27,11 +24,14 @@ const PageContent: React.FC<PageContentProps> = ({
   );
 
   const [showSnackbar, setShowSnackbar] = useState(false);
-
   const [htmlContent, setHtmlContent]: any = useState(() =>
     marked(page.bodyText)
   );
   const [editedTitle, setEditedTitle] = useState(page.title);
+
+  const isSmallScreen = useMediaQuery((theme: Theme) =>
+    theme.breakpoints.down("sm")
+  );
 
   const handleSave = async () => {
     const html = await marked(htmlContent);
@@ -80,9 +80,9 @@ const PageContent: React.FC<PageContentProps> = ({
       flex="1"
       p={isSmallScreen ? 2 : 5}
       bgcolor="white"
-      position="relative"
       sx={{
         padding: isSmallScreen ? 2 : 4,
+        marginTop: isSmallScreen ? 10 : 2,
         backgroundColor: "#fff",
         borderRadius: "8px",
         boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",

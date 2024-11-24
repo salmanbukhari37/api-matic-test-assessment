@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, useMediaQuery, Theme } from "@mui/material";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import ExportButton from "./ExportButton";
@@ -12,6 +12,9 @@ const Sidebar: React.FC<SidebarProps> = ({ routes }) => {
     (state: RootState) => state.pagesSlice.isEditing
   );
   const pages = useSelector((state: RootState) => state.pagesSlice.pages);
+  const isSmallScreen = useMediaQuery((theme: Theme) =>
+    theme.breakpoints.down("md")
+  );
 
   const exportJSON = () => {
     const jsonContent = JSON.stringify(pages, null, 2);
@@ -28,18 +31,23 @@ const Sidebar: React.FC<SidebarProps> = ({ routes }) => {
 
   return (
     <Box
-      width="20%"
+      width={isSmallScreen ? "100%" : "20%"}
       bgcolor="linear-gradient(to bottom, #e3f2fd, #f5f5f5)"
       p={2}
-      borderRight="1px solid #e0e0e0"
-      boxShadow="2px 0 5px rgba(0, 0, 0, 0.1)"
+      borderRight={isSmallScreen ? "none" : "1px solid #e0e0e0"}
+      boxShadow={isSmallScreen ? "none" : "2px 0 5px rgba(0, 0, 0, 0.1)"}
       display="flex"
       flexDirection="column"
       justifyContent="space-between"
-      height="100vh"
+      height={isSmallScreen ? "auto" : "100vh"}
       borderRadius="8px"
+      sx={{
+        position: isSmallScreen ? "relative" : "fixed",
+        marginTop: isSmallScreen ? 3 : 0,
+        top: 0,
+        zIndex: 1200,
+      }}
     >
-      {/* Menu Header */}
       <Box>
         <Typography
           variant="h6"
@@ -54,8 +62,6 @@ const Sidebar: React.FC<SidebarProps> = ({ routes }) => {
         >
           {eSideBar.menuTitle}
         </Typography>
-
-        {/* Menu Items */}
         <MenuList routes={routes} isEditing={isEditing} />
       </Box>
 
