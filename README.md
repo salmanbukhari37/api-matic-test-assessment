@@ -78,7 +78,7 @@ cd api-matic-test-assessment
 #### Npm
 
 ```
-npm install --legacy-peer-dep
+npm install
 ```
 
 ### Run the Project
