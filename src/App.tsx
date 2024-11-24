@@ -53,7 +53,6 @@ const App: React.FC = () => {
                   />
                 </>
               ) : (
-                /* Static Sidebar for Larger Screens */
                 <StaticSidebar routes={routes} />
               )}
 

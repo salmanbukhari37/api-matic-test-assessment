@@ -5,8 +5,7 @@ import PageRenderer from "../components/PageRenderer";
 import { Helmet } from "react-helmet";
 import { eRoutes } from "dto/enum/Routes.enum";
 
-// Extract the default page (Page-1) from the pagesContent
-const defaultPage = pagesContent.Pages[0]; // Assuming "Page-1" is the first page
+const defaultPage = pagesContent.Pages[0];
 
 export const routes: AppRoute[] = [
   {
